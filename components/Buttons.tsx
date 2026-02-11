@@ -14,7 +14,7 @@ interface ButtonProps {
 }
 
 const base =
-  'inline-flex items-center justify-center font-semibold rounded-xl transition-all duration-200 active:scale-[0.98] min-h-[48px] min-w-[44px] touch-manipulation';
+  'inline-flex items-center justify-center font-semibold rounded-xl transition-all duration-200 active:scale-[0.98] min-h-[48px] min-w-[44px] touch-manipulation disabled:opacity-55 disabled:cursor-not-allowed disabled:active:scale-100';
 
 const variants = {
   primary:

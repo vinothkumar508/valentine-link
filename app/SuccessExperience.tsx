@@ -1,9 +1,9 @@
 'use client';
 
-import { useCallback, useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import type { ProposalParams } from '@/utils/decodeParams';
 import { Button } from '@/components/Buttons';
+import { PhotoGrid } from '@/components/PhotoGrid';
 
 interface SuccessExperienceProps {
   params: ProposalParams;
@@ -14,95 +14,6 @@ const HEADLINES = [
   'You said YES!',
   "It's the start of something beautiful.",
 ];
-
-function SuccessCarousel({ imageUrls }: { imageUrls: string[] }) {
-  const [index, setIndex] = useState(0);
-  const [touchStart, setTouchStart] = useState<number | null>(null);
-  const [touchEnd, setTouchEnd] = useState<number | null>(null);
-
-  const goNext = useCallback(() => {
-    setIndex((i) => (i + 1) % imageUrls.length);
-  }, [imageUrls.length]);
-
-  const goPrev = useCallback(() => {
-    setIndex((i) => (i - 1 + imageUrls.length) % imageUrls.length);
-  }, [imageUrls.length]);
-
-  const onTouchStart = (e: React.TouchEvent) => setTouchStart(e.targetTouches[0].clientX);
-  const onTouchMove = (e: React.TouchEvent) => setTouchEnd(e.targetTouches[0].clientX);
-  const onTouchEnd = () => {
-    if (touchStart == null || touchEnd == null) return;
-    const diff = touchStart - touchEnd;
-    if (Math.abs(diff) > 50) (diff > 0 ? goNext : goPrev)();
-    setTouchStart(null);
-    setTouchEnd(null);
-  };
-
-  useEffect(() => {
-    const handle = (e: KeyboardEvent) => {
-      if (e.key === 'ArrowLeft') goPrev();
-      if (e.key === 'ArrowRight') goNext();
-    };
-    window.addEventListener('keydown', handle);
-    return () => window.removeEventListener('keydown', handle);
-  }, [goPrev, goNext]);
-
-  return (
-    <div
-      className="relative w-full max-w-2xl mx-auto aspect-[4/3] rounded-2xl overflow-hidden bg-stone-900/5"
-      onTouchStart={onTouchStart}
-      onTouchMove={onTouchMove}
-      onTouchEnd={onTouchEnd}
-    >
-      {imageUrls.map((url, i) => (
-        <div
-          key={url}
-          className="absolute inset-0 flex items-center justify-center p-2 sm:p-4 transition-opacity duration-300"
-          style={{
-            opacity: i === index ? 1 : 0,
-            pointerEvents: i === index ? 'auto' : 'none',
-          }}
-        >
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src={url}
-            alt=""
-            className="w-full h-full max-h-[50vh] object-contain rounded-2xl shadow-lg"
-            loading="lazy"
-            decoding="async"
-          />
-        </div>
-      ))}
-      {imageUrls.length > 1 && (
-        <>
-          <button
-            type="button"
-            onClick={goPrev}
-            className="absolute left-2 top-1/2 -translate-y-1/2 w-11 h-11 rounded-full bg-white/90 shadow soft text-stone-700 flex items-center justify-center hover:bg-white transition-colors touch-manipulation"
-            aria-label="Previous image"
-          >
-            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-            </svg>
-          </button>
-          <button
-            type="button"
-            onClick={goNext}
-            className="absolute right-2 top-1/2 -translate-y-1/2 w-11 h-11 rounded-full bg-white/90 shadow-soft text-stone-700 flex items-center justify-center hover:bg-white transition-colors touch-manipulation"
-            aria-label="Next image"
-          >
-            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-            </svg>
-          </button>
-          <p className="absolute bottom-2 left-1/2 -translate-x-1/2 text-sm text-stone-500 bg-white/80 px-3 py-1 rounded-full">
-            {index + 1} / {imageUrls.length}
-          </p>
-        </>
-      )}
-    </div>
-  );
-}
 
 export function SuccessExperience({ params, onReplay }: SuccessExperienceProps) {
   const hasImages = params.imgs.length > 0;
@@ -151,9 +62,7 @@ export function SuccessExperience({ params, onReplay }: SuccessExperienceProps) 
         </p>
 
         {hasImages ? (
-          <div className="mt-8 w-full">
-            <SuccessCarousel imageUrls={params.imgs} />
-          </div>
+          <PhotoGrid imageUrls={params.imgs} />
         ) : (
           <motion.div
             className="mt-8 w-full max-w-sm mx-auto p-8 rounded-3xl bg-white/90 shadow-card border border-white/80"

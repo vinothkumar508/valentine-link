@@ -16,7 +16,7 @@ npm install
 npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000). Use **Create your link** (or `/create`) to build a link, then open the generated URL to see the proposal experience.
+Open [http://localhost:3000](http://localhost:3000) to view the experience. (The link generator is intentionally private and access-gated.)
 
 ## Deploy (Vercel)
 
@@ -36,7 +36,6 @@ The `out` folder is a static export. Deploy to Vercel (or any static host); no s
 
 ```
 /app
-  /create    → Link generator (form, validation, live preview, copy)
   page.tsx   → Interactive proposal (YES/NO, confetti, gallery modal)
 /components  → Card, Input, Buttons, Confetti, GalleryModal, Toast
 /utils       → sanitize.ts, decodeParams.ts

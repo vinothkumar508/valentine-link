@@ -17,12 +17,6 @@ export default function HomePage() {
       <Suspense fallback={<ProposalFallback />}>
         <ProposalExperience />
       </Suspense>
-      <a
-        href="/create"
-        className="fixed bottom-4 right-4 text-stone-500 hover:text-rose-600 text-sm font-medium transition-colors"
-      >
-        Create your link
-      </a>
     </main>
   );
 }

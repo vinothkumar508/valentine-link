@@ -24,12 +24,21 @@ const DEFAULTS: ProposalParams = {
  * Safe for SSR/static: pass empty or partial params; we apply defaults and sanitize.
  */
 export function decodeParams(searchParams: URLSearchParams): ProposalParams {
-  const to = sanitizeText(searchParams.get('to') ?? '', 30) || DEFAULTS.to;
+  // support older keys (`to`) and the generator-friendly `name`
+  const nameRaw = searchParams.get('name');
+  const toRaw = searchParams.get('to');
+  const to = sanitizeText(nameRaw ?? toRaw ?? '', 30) || DEFAULTS.to;
   const from = sanitizeText(searchParams.get('from') ?? '', 30) || DEFAULTS.from;
   const msg = sanitizeText(searchParams.get('msg') ?? '', 120) || DEFAULTS.msg;
-  const imgsRaw = searchParams.get('imgs') ?? '';
+  // Accept photos via `photos` (comma-separated) or `imgs` (pipe-separated)
+  const photosRaw = searchParams.get('photos');
+  const imgsRaw = photosRaw ?? searchParams.get('imgs') ?? '';
   const imgs = sanitizeImageUrls(
-    imgsRaw.split('|').map((s) => s.trim()).filter(Boolean)
+    (photosRaw
+      ? (imgsRaw as string).split(',')
+      : (imgsRaw as string).split('|'))
+      .map((s) => s.trim())
+      .filter(Boolean)
   );
 
   return { to, from, msg, imgs };
