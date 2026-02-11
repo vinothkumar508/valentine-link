@@ -7,6 +7,4 @@
  */
 
 export const GENERATOR_ENABLED = true;
-
-// Change this to a long random string before deploying
-export const GENERATOR_SECRET = 'valentine-studio-2026-x9KpL2';
+// Feature flag only. Move any secret keys to environment variables.
