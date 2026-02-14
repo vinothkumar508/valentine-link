@@ -1,6 +1,6 @@
-# Valentine Link — Will you be my Valentine?
+# Classic Moments ✨
 
-A **fully static**, zero-backend web app that lets you create a personalized “Will you be my Valentine?” link. The recipient gets an interactive YES/NO experience; choosing YES reveals a message and optional photo gallery.
+A **fully static**, zero-backend web app that lets you create a personalized memory link for any occasion. The recipient gets an interactive YES/NO experience; choosing YES reveals a message and optional photo gallery.
 
 ## Tech stack
 
